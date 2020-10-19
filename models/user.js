@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 
 const userSchema = mongoose.Schema(
     {
+      title: String,
       firstName: String,
       middleName: String,
       lastName: String,
@@ -11,7 +12,7 @@ const userSchema = mongoose.Schema(
       password: String,
       createdAt: Number,
       updatedAt: Number,
-      status: Number
+      status: String
     }
   );
   
@@ -30,13 +31,13 @@ const userSchema = mongoose.Schema(
         ).lean();
     }
     getUserByEmail(email){
-        return this.User.findOne({email}).lean();
+        return this.User.findOne({email}, {password: 0}).lean();
     }
     getById(id) {
-        return this.User.findById(id);
+        return this.User.findById(id, { password: 0 }).lean();
     }
     getByEmailAndPassword(email, password) {
-      return this.User.findOne({email, password});
+      return this.User.findOne({email, password}, { password: 0}).lean();
     }
   }  
 

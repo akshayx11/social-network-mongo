@@ -35,6 +35,9 @@ const userSchema = mongoose.Schema(
     getById(id) {
         return this.User.findById(id);
     }
+    getByEmailAndPassword(email, password) {
+      return this.User.findOne({email, password});
+    }
   }  
 
   exports.User = User;

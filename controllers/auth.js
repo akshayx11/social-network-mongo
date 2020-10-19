@@ -1,5 +1,5 @@
 const crypto = require("crypto");
-const { getByEmailAndPassword } = require("../models/user");
+const {User: userModel} = require("../models/user");
 const jwt = require("jsonwebtoken");
 const TOKEN_SECRET = "social2020";
 
@@ -29,14 +29,14 @@ const decryptJwtToken = payload => {
 const authorizeUser = async creds =>{
     let {email, password} = creds;
     password = encryptData(password);
-    const [data] =  await getByEmailAndPassword(email, password);
+    const data =  await new userModel().getByEmailAndPassword(email, password);
     if(!data){
         return {
             statusCode: 403,
             message: "invalid email or password"
         };
     }
-    const token = generateJwtToken({email: data.email, userId: data.id});
+    const token = generateJwtToken({email: data.email, userId: `${data._id}`});
     data.token = token;
     delete data.password;
     return {

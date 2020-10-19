@@ -22,4 +22,20 @@ const registerUser = async user => {
     }
 }
 
-module.exports = { registerUser };
+const getUserById = async userId => 
+{
+    const userData = await new userModel().getById(userId);
+    if(!userData){
+        return {
+            statusCode: 404,
+            message: "user not found"
+        };
+    }
+    delete userData.password;
+    return {
+        statusCode: 200,
+        data: userData
+    };
+    
+}
+module.exports = { registerUser, getUserById };

@@ -13,7 +13,7 @@ exports.userSignupValidate = Joi.object({
     city : Joi.string(),
 	state : Joi.string(),
 	country : Joi.string(),
-	status : Joi.string().required(),
+    gender: Joi.string().required()
 });
 
 exports.userLoginValidate = Joi.object({

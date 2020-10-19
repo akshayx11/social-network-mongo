@@ -1,0 +1,36 @@
+{
+  "name": "social-network-mongo",
+  "version": "1.0.0",
+  "description": "A simple social network apis",
+  "main": "app.js",
+  "scripts": {
+    "dev": "nodemon app"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/akshayx11/social-network-mongo.git"
+  },
+  "keywords": [
+    "social",
+    "network"
+  ],
+  "author": "Akshay Kumar Gupta, Namrata Son",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/akshayx11/social-network-mongo/issues"
+  },
+  "homepage": "https://github.com/akshayx11/social-network-mongo#readme",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "express": "^4.17.1",
+    "express-boom": "^3.0.0",
+    "joi": "^17.2.1",
+    "jsonwebtoken": "^8.5.1",
+    "knex": "^0.21.5",
+    "lodash": "^4.17.20",
+    "mongoose": "^5.10.9",
+    "mysql": "^2.18.1",
+    "nodemailer": "^6.4.11",
+    "nodemon": "^2.0.4"
+  }
+}

@@ -1,20 +1,21 @@
 const  { User: userModel } = require("../models/user");
-
-
+const  { ObjectID } =  require("bson");
+const { encryptData } = require("./auth");
 const registerUser = async user => {
     // check if user exists
-    const userDetails = await new userModel().getUserByEmail();
-    console.log(JSON.stringify(userDetails));
+    const userDetails = await new userModel().getUserByEmail(user.email);
     if(userDetails) {
         return {
             error: "Forbidden",
             statusCode: 403,
-            message: "User already exists",
-            data: user
+            message: "User already exists"
         }
     }
+    user.status = "active";
+    user.createdAt = Date.now();
+    user.updatedAt =  Date.now();
+    user.password = encryptData(user.password);
     const result = await new userModel().createOrUpdate(user);
-    delete user.password;
     return {
         statusCode: 200,
         message: "User registred successfully",
@@ -24,14 +25,13 @@ const registerUser = async user => {
 
 const getUserById = async userId => 
 {
-    const userData = await new userModel().getById(userId);
+    const userData = await new userModel().getById(new ObjectID(userId));
     if(!userData){
         return {
             statusCode: 404,
             message: "user not found"
         };
     }
-    delete userData.password;
     return {
         statusCode: 200,
         data: userData

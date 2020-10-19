@@ -38,7 +38,6 @@ const authorizeUser = async creds =>{
     }
     const token = generateJwtToken({email: data.email, userId: `${data._id}`});
     data.token = token;
-    delete data.password;
     return {
         statusCode: 200,
         data

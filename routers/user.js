@@ -6,15 +6,15 @@ const { responseHandler } = require("../utils/common");
 router.get('/', async (req, res)=>{
     try{
         console.log(req.user);
-        const { id } = req.user;
-        if(!id){
+        const { _id } = req.user;
+        if(!_id){
             return res.boom.badRequest("Please provide id");
         }
         const {
             data,
             statusCode,
             message
-        } =  await getUserById(id); 
+        } =  await getUserById(_id); 
         responseHandler({
             res,
             statusCode,

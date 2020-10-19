@@ -5,6 +5,7 @@ const { responseHandler } = require("../utils/common");
 const { userSignupValidate, userLoginValidate } = require("../validators/user");
 const { jwtValidator } = require("../validators/auth");
 const { generateJwtToken } = require("../controllers/auth");
+const {authorizeUser} =  require("../controllers/auth");
 
 router.post('/signup', async (req, res) => {
     try {
@@ -38,7 +39,7 @@ router.post('/login', async (req, res) => {
             data,
             statusCode,
             message
-        } = await loginUser(value);
+        } = await authorizeUser(value);
         responseHandler({
             res,
             statusCode,

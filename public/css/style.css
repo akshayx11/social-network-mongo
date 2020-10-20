@@ -1,16 +1,38 @@
-input[type=text], input[type=password], input[type=email]{
+body {
+    background: radial-gradient(#384078,#529bda,transparent);
+}
+input[type=text], input[type=password], input[type=email], input[type=date], input[type=submit] {
     border-radius: 6px;
     font-size: 17px;
     padding: 14px 16px;
-    width: 330px;
+    width: auto;
+    position: relative;
     margin: 7px;
+    display: block;
 }
 .register-user {
+    padding: 10px;
+    background: white;
+    box-shadow: 0px 0px 9px 2px #888f8f;
+    border-radius: 20px;
     width: 30%;
+    display: flex;
+    flex-flow: column;
+    margin: auto;
 }
 .register-user select#title {
-    width: auto;
+    width: 100px;
     padding: 14px 16px;
     border-radius: 6px;
     margin: 7px;
+}
+
+.gender-selection {
+    padding: 0px 0px 17px 0;
+}
+
+@media only screen and (max-width: 768px) {
+    .register-user {
+        width: 95%;
+    }
 }

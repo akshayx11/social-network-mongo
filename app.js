@@ -33,7 +33,7 @@ app.use("/auth", authRouter);
 
 app.get('/', (req, res)=>{
     try {
-        //show homepage if not logged in or show user view if logged in or cookied found
+        //show homepage if not logged in or show user view if logged in or cookies found
         
         res.render('register', {
             layout: 'indexLayout'

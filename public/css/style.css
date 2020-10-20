@@ -1,0 +1,16 @@
+input[type=text], input[type=password], input[type=email]{
+    border-radius: 6px;
+    font-size: 17px;
+    padding: 14px 16px;
+    width: 330px;
+    margin: 7px;
+}
+.register-user {
+    width: 30%;
+}
+.register-user select#title {
+    width: auto;
+    padding: 14px 16px;
+    border-radius: 6px;
+    margin: 7px;
+}

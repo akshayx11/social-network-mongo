@@ -32,4 +32,23 @@ $(function () {
             console.log(JSON.stringify(data));
         });
     });
+
+    $("#login-btn").on("click", () => {
+        const email = $("#user-email").val();
+        const password = $("#user-password").val();
+        let posting = $.post( "/auth/login", 
+            { 
+                email,
+                password
+            } 
+        );
+        posting.done(function( data ) {
+            alert(JSON.stringify(data.data));
+            document.cookie = data.data.token;
+            console.log("DATATATATTATATAT", data);
+        }).fail((data)=> {
+            alert(data.responseJSON.message);
+            console.log(JSON.stringify(data));
+        });
+    });
 });

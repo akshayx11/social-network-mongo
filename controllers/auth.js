@@ -20,7 +20,7 @@ const decryptData = encryptText => {
 };
 
 const generateJwtToken = payload => {
-    return jwt.sign(payload, TOKEN_SECRET, { expiresIn: '18000s' });
+    return jwt.sign(payload, TOKEN_SECRET, { expiresIn: '7d' });
 }
 const decryptJwtToken = payload => {
     return jwt.verify(payload, TOKEN_SECRET);

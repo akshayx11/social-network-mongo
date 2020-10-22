@@ -9,6 +9,9 @@ const { authRouter } = require("./routers/auth");
 //const { friendRouter } = require("./routers/friend");
 //const { postRouter } = require("./routers/post");
 const {authMiddleWare} = require("./middlewares/auth");
+const { decryptJwtToken } = require("./controllers/auth");
+const { getUserById } = require("./controllers/user");
+const  { ObjectID } =  require("bson");
 const app = express();
 
 app.use(bodyParser.json());
@@ -31,7 +34,31 @@ app.use("/auth", authRouter);
 //app.use("/friend", authMiddleWare,friendRouter);
 //app.use("/post", authMiddleWare, postRouter);
 
-app.get('/', (req, res)=>{
+app.get('/', async(req, res)=>{
+    try {
+        //show homepage if not logged in or show user view if logged in or cookies found
+        const token = req.headers.cookie;
+        let userPage = 'login';
+        let userDetails = {};
+        if(token){
+            const { userId, exp } = decryptJwtToken(token);
+            if(exp < Date.now()){
+                const { data } =  await getUserById(new ObjectID(userId));
+                userDetails = data;
+                userPage = "homepage";
+            }
+        }
+        res.render(userPage, {
+            layout: 'indexLayout',
+            data: {...userDetails}
+        });
+    } catch(e) {
+        res.send("Error occured: " + e);
+    }
+    
+});
+
+app.get('/signup', async (req, res) => {
     try {
         //show homepage if not logged in or show user view if logged in or cookies found
         
@@ -41,7 +68,16 @@ app.get('/', (req, res)=>{
     } catch(e) {
         res.send("Error occured: " + e);
     }
-    
+});
+app.get('/login', async (req, res) => {
+    try {
+        
+        res.render('login', {
+            layout: 'indexLayout'
+        });
+    } catch(e) {
+        res.send("Error occured: " + e);
+    }
 });
 const PORT =  3002;
 app.listen(process.env.PORT || PORT, ()=> {

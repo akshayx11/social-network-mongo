@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const { getUserById } = require("../controllers/user");
 const { responseHandler } = require("../utils/common");
+const { ObjectID } = require("bson");
 
 router.get('/', async (req, res)=>{
     try{
@@ -23,6 +24,20 @@ router.get('/', async (req, res)=>{
         });
     }catch(e){
        res.send("Error occured: "+ e);
+    }
+});
+
+router.get('/profile', async (req, res) => {
+    try {
+        const { _id: userId } = req.user;
+        const { data } =  await getUserById(new ObjectID(userId));
+        console.log(JSON.stringify(data));
+        res.render('profile', {
+            layout: 'homepageLayout',
+            data
+        });
+    }catch(e) {
+        res.send("Error occured: "+ e);
     }
 });
 exports.userRouter = router;

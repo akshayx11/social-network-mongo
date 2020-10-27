@@ -1,9 +1,9 @@
 const crypto = require("crypto");
 const {User: userModel} = require("../models/user");
 const jwt = require("jsonwebtoken");
-const TOKEN_SECRET = "social2020";
 
-const secretKey = "akshaygupta.me";
+const TOKEN_SECRET = process.env.TOKEN_SECRET;
+const secretKey = process.env.SECRET_AUTH_KEY;
 
 const encryptData = plainText =>{
     const encCipher =  crypto.createCipher('aes-128-cbc', secretKey);

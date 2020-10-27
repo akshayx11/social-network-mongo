@@ -11,6 +11,9 @@ $(function () {
         const gender = $("input[name='gender']:checked").val();
         const mobileno = $("#user-mobileno").val();
         const dob =  new Date($("#user-dob").val()).getTime();
+        const city = $("#user-city").val();
+        const state = $("#user-state").val();
+        const country = $("#user-country").val();
         let posting = $.post( "/auth/signup", 
             { 
                 title,
@@ -21,12 +24,14 @@ $(function () {
                 password,
                 gender,
                 mobileno,
-                dob
+                dob,
+                city,
+                state,
+                country
             } 
         );
         posting.done(function( data ) {
-            alert(data.responseJSON.message);
-            console.log("DATATATATTATATAT", data);
+            location.href = "/login";
         }).fail((data)=> {
             alert(data.responseJSON.message);
             console.log(JSON.stringify(data));
@@ -46,6 +51,7 @@ $(function () {
             alert(JSON.stringify(data.data));
             document.cookie = data.data.token;
             console.log("DATATATATTATATAT", data);
+            location.href = "/";
         }).fail((data)=> {
             alert(data.responseJSON.message);
             console.log(JSON.stringify(data));

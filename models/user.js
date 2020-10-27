@@ -21,6 +21,9 @@ const userSchema = mongoose.Schema(
       createdAt: Number,
       updatedAt: Number,
       status: String,
+      city: String,
+      state: String,
+      country: String,
       friends: [friendsSchema],
       pendingFriends: [friendsSchema]
     }

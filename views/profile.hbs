@@ -1,0 +1,14 @@
+<div id="user-profile">
+   <div id="user-thumbnail"></div> 
+   <div id="user-full-name">Name: {{data.firstName}} {{data.middleName}} {{data.lastName}}</div> 
+   <div id="user-email">Email: {{data.email}}</div> 
+   <div id="user-gender">Gender: {{data.gender}}</div> 
+   <div id="user-city">City: {{data.city}}</div> 
+   <div id="user-state">State: {{data.state}}</div> 
+   <div id="user-country">Country: {{data.country}}</div>
+   <div id="user-friends">
+       Friends: {{#each data.friends}}
+            <div>{{this.name}}<div>
+       {{/each}}
+   </div>
+</div>

@@ -3,6 +3,7 @@ const bodyParser = require("body-parser");
 const path = require('path');
 const exphbs = require('express-handlebars');
 const boom = require('express-boom');
+require("dotenv").config();
 const {connectDB} = require('./dbConnection');
 const {userRouter}  = require("./routers/user");
 const { authRouter } = require("./routers/auth");
@@ -38,7 +39,7 @@ app.get('/', async(req, res)=>{
     try {
         //show homepage if not logged in or show user view if logged in or cookies found
         const token = req.headers.cookie;
-        let userPage = 'login';
+        let userPage = 'main';
         let pageLayout = 'indexLayout';
         let userDetails = {};
         if(token){
@@ -57,7 +58,7 @@ app.get('/', async(req, res)=>{
     } catch(e) {
         const { expiredAt } = await e;
         if(expiredAt && new Date(expiredAt).getTime() < Date.now()){
-            res.render('login', {
+            res.render('main', {
                 layout: 'indexLayout'
             });
         } else{

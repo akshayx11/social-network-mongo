@@ -5,7 +5,7 @@ const { User: userModel } = require("../models/user");
 
 const authMiddleWare =  async (req, res, next) => {
     try {
-        const {email, userId } = decryptJwtToken(req.headers.authorization) || {};
+        const {email, userId } = decryptJwtToken(req.headers.authorization || req.headers.cookie) || {};
         if(!email || !userId){
             res.boom.unauthorized("Invaild login");
         }

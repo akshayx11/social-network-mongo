@@ -1,5 +1,13 @@
 const mongoose = require("mongoose");
+const { ObjectID } = require("bson");
 
+const friendsSchema = mongoose.Schema({
+  id: ObjectID,
+  name: String,
+  addedAt: Number
+},{
+  _id: false
+})
 const userSchema = mongoose.Schema(
     {
       title: String,
@@ -12,7 +20,9 @@ const userSchema = mongoose.Schema(
       password: String,
       createdAt: Number,
       updatedAt: Number,
-      status: String
+      status: String,
+      friends: [friendsSchema],
+      pendingFriends: [friendsSchema]
     }
   );
   
@@ -33,11 +43,38 @@ const userSchema = mongoose.Schema(
     getUserByEmail(email){
         return this.User.findOne({email}, {password: 0}).lean();
     }
-    getById(id) {
-        return this.User.findById(id, { password: 0 }).lean();
+    getById(id, option = {}) {
+        return this.User.findById(id, { password: 0, ...option }).lean();
+    }
+    getByIds(ids, option = {}) {
+      return this.User.find({_id: { $in: ids}}, { password: 0, ...option }).lean();
     }
     getByEmailAndPassword(email, password) {
       return this.User.findOne({email, password}, { password: 0}).lean();
+    }
+
+    //Friends
+    async addUserToPendingFriends(user, friends){
+      await this.User.update(
+        {
+          _id: user.id 
+        },
+        {
+          $addToSet: {
+            pendingFriends: { $each: friends }
+          }
+        }
+      );
+      await this.User.update(
+        {
+          _id: { $in: friends.map(({id}) => id) }
+        },
+        {
+          $addToSet: {
+            pendingFriends: user
+          }
+        }
+      );
     }
   }  
 

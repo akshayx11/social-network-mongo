@@ -6,7 +6,7 @@ const boom = require('express-boom');
 const {connectDB} = require('./dbConnection');
 const {userRouter}  = require("./routers/user");
 const { authRouter } = require("./routers/auth");
-//const { friendRouter } = require("./routers/friend");
+const { friendRouter } = require("./routers/friend");
 //const { postRouter } = require("./routers/post");
 const {authMiddleWare} = require("./middlewares/auth");
 const { decryptJwtToken } = require("./controllers/auth");
@@ -31,7 +31,7 @@ app.use(boom());
 connectDB();
 app.use("/user", authMiddleWare, userRouter);
 app.use("/auth", authRouter);
-//app.use("/friend", authMiddleWare,friendRouter);
+app.use("/friend", authMiddleWare,friendRouter);
 //app.use("/post", authMiddleWare, postRouter);
 
 app.get('/', async(req, res)=>{
@@ -39,6 +39,7 @@ app.get('/', async(req, res)=>{
         //show homepage if not logged in or show user view if logged in or cookies found
         const token = req.headers.cookie;
         let userPage = 'login';
+        let pageLayout = 'indexLayout';
         let userDetails = {};
         if(token){
             const { userId, exp } = decryptJwtToken(token);
@@ -46,16 +47,23 @@ app.get('/', async(req, res)=>{
                 const { data } =  await getUserById(new ObjectID(userId));
                 userDetails = data;
                 userPage = "homepage";
+                pageLayout = "homePageLayout";
             }
         }
         res.render(userPage, {
-            layout: 'indexLayout',
+            layout: pageLayout,
             data: {...userDetails}
         });
     } catch(e) {
-        res.send("Error occured: " + e);
-    }
-    
+        const { expiredAt } = await e;
+        if(expiredAt && new Date(expiredAt).getTime() < Date.now()){
+            res.render('login', {
+                layout: 'indexLayout'
+            });
+        } else{
+            res.send("Error occured: " + e);
+        }
+    }  
 });
 
 app.get('/signup', async (req, res) => {

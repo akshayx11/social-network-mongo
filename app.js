@@ -48,7 +48,7 @@ app.get('/', async(req, res)=>{
                 const { data } =  await getUserById(new ObjectID(userId));
                 userDetails = data;
                 userPage = "homepage";
-                pageLayout = "homePageLayout";
+                pageLayout = "homepageLayout";
             }
         }
         res.render(userPage, {

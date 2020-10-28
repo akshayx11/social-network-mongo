@@ -13,6 +13,7 @@ const {authMiddleWare} = require("./middlewares/auth");
 const { decryptJwtToken } = require("./controllers/auth");
 const { getUserById } = require("./controllers/user");
 const  { ObjectID } =  require("bson");
+const { getCookie } = require("./utils/cookieHandler");
 const app = express();
 
 app.use(bodyParser.json());
@@ -38,11 +39,11 @@ app.use("/friend", authMiddleWare,friendRouter);
 app.get('/', async(req, res)=>{
     try {
         //show homepage if not logged in or show user view if logged in or cookies found
-        const token = req.headers.cookie;
+        const token = req.headers.cookie && getCookie(req.headers.cookie, "token");
         let userPage = 'main';
         let pageLayout = 'indexLayout';
         let userDetails = {};
-        if(token){
+        if(token && token!== "undefined"){
             const { userId, exp } = decryptJwtToken(token);
             if(exp < Date.now()){
                 const { data } =  await getUserById(new ObjectID(userId));

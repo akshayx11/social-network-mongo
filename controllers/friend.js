@@ -2,7 +2,6 @@ const { ObjectID } = require("bson");
 const  { User: userModel } = require("../models/user");
 
 const sendFriendRequest = async (user, friendIds) => {
-    console.log(userId, friendIds)
     const now = Date.now();
     const { _id, firstName, middleName, lastName } = user;
     const userFullName = `${firstName} ${middleName ? middleName : ""} ${lastName}`;

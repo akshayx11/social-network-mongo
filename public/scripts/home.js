@@ -3,7 +3,7 @@ $(function () {
        location.href = "/";
     });
     $('#friend-link').on('click', ()=> {
-        $('#main-content').html("<h1>Friend<h1>");
+        $('.main-content').html("<h1>Friend<h1>");
     });  
     $('#profile-link').on('click', ()=>{
         location.href = "/user/profile";

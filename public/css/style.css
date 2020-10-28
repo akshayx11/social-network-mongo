@@ -1,5 +1,5 @@
 body {
-    background: radial-gradient(#384078,#529bda,transparent);
+    font-family: Arial, Helvetica, sans-serif;
 }
 input[type=text], input[type=password], input[type=email], input[type=date], input[type=submit] {
     border-radius: 6px;
@@ -10,7 +10,7 @@ input[type=text], input[type=password], input[type=email], input[type=date], inp
     margin: 7px;
     display: block;
 }
-.register-user {
+.register-user, .login-user {
     padding: 10px;
     background: white;
     box-shadow: 0px 0px 9px 2px #888f8f;
@@ -31,8 +31,8 @@ input[type=text], input[type=password], input[type=email], input[type=date], inp
     padding: 0px 0px 17px 0;
 }
 
-@media only screen and (max-width: 768px) {
-    .register-user {
+@media only screen and (max-width: 600px) {
+    .register-user, .login-user {
         width: 95%;
     }
 }

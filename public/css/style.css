@@ -30,8 +30,10 @@ input[type=text], input[type=password], input[type=email], input[type=date], inp
 .gender-selection {
     padding: 0px 0px 17px 0;
 }
-
-@media only screen and (max-width: 600px) {
+.main-content {
+    width: 100%;
+}
+@media only screen and (max-width: 768px) {
     .register-user, .login-user {
         width: 95%;
     }

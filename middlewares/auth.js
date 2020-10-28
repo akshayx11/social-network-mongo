@@ -1,11 +1,15 @@
 
 const { decryptJwtToken } = require("../controllers/auth");
 const { User: userModel } = require("../models/user");
-
+const { getCookie } = require("../utils/cookieHandler");
 
 const authMiddleWare =  async (req, res, next) => {
     try {
-        const {email, userId } = decryptJwtToken(req.headers.authorization || req.headers.cookie) || {};
+        const token = getCookie(req.headers.cookie, "token");
+        if(!token || token === "undefined") {
+            res.boom.unauthorized("Invaild login");
+        }
+        const {email, userId } = decryptJwtToken(req.headers.authorization || token) || {};
         if(!email || !userId){
             res.boom.unauthorized("Invaild login");
         }

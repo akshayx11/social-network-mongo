@@ -6,7 +6,6 @@ const { ObjectID } = require("bson");
 
 router.get('/', async (req, res)=>{
     try{
-        console.log(req.user);
         const { _id } = req.user;
         if(!_id){
             return res.boom.badRequest("Please provide id");
@@ -31,7 +30,6 @@ router.get('/profile', async (req, res) => {
     try {
         const { _id: userId } = req.user;
         const { data } =  await getUserById(new ObjectID(userId));
-        console.log(JSON.stringify(data));
         res.render('profile', {
             layout: 'homepageLayout',
             data

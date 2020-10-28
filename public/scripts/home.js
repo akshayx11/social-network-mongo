@@ -9,6 +9,7 @@ $(function () {
         location.href = "/user/profile";
     });
     $('#logout-link').on('click', ()=>{
-        
+        setCookie("token");
+        location.href = "/";
     });
 });

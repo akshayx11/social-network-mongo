@@ -2,8 +2,8 @@ $(function () {
     $('#home-link').on('click', ()=> {
        location.href = "/";
     });
-    $('#friend-link').on('click', ()=> {
-        $('.main-content').html("<h1>Friend<h1>");
+    $('#people-link').on('click', ()=> {
+        $('.main-content').html("<h1>People<h1>");
     });  
     $('#profile-link').on('click', ()=>{
         location.href = "/user/profile";

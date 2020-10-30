@@ -25,10 +25,11 @@ header a:hover {
 }
 /* Create two columns/boxes that floats next to each other */
 nav {
-    float: left;
-    width: 15%;
-    background: #001b2b;
-    padding: 15px;
+  float: left;
+  width: 15%;
+  background: #001b2b;
+  padding: 15px;
+  height: 100vh;
 }
 
 #home-nav li {
@@ -38,6 +39,23 @@ nav {
     margin: 5px;
     text-align: center;
     cursor: pointer;    
+}
+
+#user-profile div {
+  padding: 10px;
+}
+
+#update-profile-btn {
+    color: #FFFFFE;
+    background: #001B2B;
+    padding: 10px;
+    border: 1px #0e3d8b solid;
+    font-weight: bold;
+    float: right;
+    cursor: pointer;
+}
+#update-profile-btn:hover {
+  background: #A61651;
 }
 
 /* Style the list inside the menu */
@@ -73,5 +91,9 @@ footer {
   nav, .main-content {
     width: 100%;
     height: auto;
+  }
+  #user-full-name input {
+    display: flex;
+    flex-direction: column;
   }
 }

@@ -1,14 +1,22 @@
 <div id="user-profile">
-   <div id="user-thumbnail"></div> 
-   <div id="user-full-name">Name: {{data.firstName}} {{data.middleName}} {{data.lastName}}</div> 
-   <div id="user-email">Email: {{data.email}}</div> 
-   <div id="user-gender">Gender: {{data.gender}}</div> 
-   <div id="user-city">City: {{data.city}}</div> 
-   <div id="user-state">State: {{data.state}}</div> 
-   <div id="user-country">Country: {{data.country}}</div>
-   <div id="user-friends">
+   <div id="user-thumbnail"></div>
+   <div id="user-full-name">Name: 
+       {{{data.title}}}
+       <input id="user-fname" type="text" value="{{data.firstName}}" />
+       <input id="user-mname"type="text" value="{{data.middleName}}" />
+       <input id="user-lname" type="text" value="{{data.lastName}}" />
+    </div> 
+   <div>Email: {{data.email}} </div> 
+   <div>Mobile no: <input type="text" id="user-mobileno" value="{{data.mobileno}}"/> </div> 
+   <div id="user-gender">Gender: {{data.gender}} </div> 
+   <div >City: <input type="text" id="user-city" value="{{data.city}}"/> </div> 
+   <div >State: <input type="text" id="user-state" value="{{data.state}}"/> </div> 
+   <div >Country: <input type="text" id="user-country" value="{{data.country}}"/> </div>
+
+   <input type="button" value="Save" id="update-profile-btn"/>
+   <!--div id="user-friends">
        Friends: {{#each data.friends}}
             <div>{{this.name}}<div>
        {{/each}}
-   </div>
+   </div-->
 </div>

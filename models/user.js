@@ -17,6 +17,7 @@ const userSchema = mongoose.Schema(
       gender: String,
       dob: Number,
       email: { type: String, lowercase: true },
+      mobileno: String,
       password: String,
       createdAt: Number,
       updatedAt: Number,

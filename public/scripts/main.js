@@ -90,4 +90,36 @@ $(function () {
             console.log(JSON.stringify(data));
         });
     });
+
+    $("#update-profile-btn").on("click", (event) => {
+      event.preventDefault();
+      const firstName = $("#user-fname").val();
+      const middleName = $("#user-mname").val();
+      const lastName = $("#user-lname").val();
+      const mobileno = $("#user-mobileno").val();
+      //const dob =  new Date($("#user-dob").val()).getTime();
+      const city = $("#user-city").val();
+      const state = $("#user-state").val();
+      const country = $("#user-country").val();
+      $.ajax({ 
+        url: "/user/", 
+        type: 'PUT',
+        contentType: "application/json",
+        data: JSON.stringify({ 
+              firstName,
+              middleName,
+              lastName,
+              mobileno,
+              city,
+              state,
+              country
+        }), 
+        success: function( data ) {
+          alert(data.responseJSON.message);
+        },
+        fail: ((data)=> {
+          alert(data.responseJSON.message);
+      })
+    });
+  });
 });

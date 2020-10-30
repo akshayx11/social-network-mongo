@@ -1,8 +1,9 @@
 const express = require("express");
 const router = express.Router();
-const { getUserById } = require("../controllers/user");
+const { getUserById, updateUser } = require("../controllers/user");
 const { responseHandler } = require("../utils/common");
 const { ObjectID } = require("bson");
+const { userUpdateValidate } = require("../validators/user");
 
 router.get('/', async (req, res)=>{
     try{
@@ -23,6 +24,28 @@ router.get('/', async (req, res)=>{
         });
     }catch(e){
        res.send("Error occured: "+ e);
+    }
+});
+router.put('/', async (req, res)=>{
+    try {
+        const { error, value: user } = userUpdateValidate.validate(req.body);
+        if (error) {
+            return res.boom.badRequest(error.message);
+        }
+        user.email = req.user.email;
+        const {
+            data,
+            statusCode,
+            message
+        } = await updateUser(user);
+        responseHandler({
+            res,
+            statusCode,
+            data,
+            message
+        });
+    } catch (e) {
+        res.send("Error occured: " + e);
     }
 });
 

@@ -38,4 +38,21 @@ const getUserById = async userId =>
     };
     
 }
-module.exports = { registerUser, getUserById };
+
+const updateUser = async user => {
+    const userData = await new userModel().getById(user._id);
+    if(userData){
+        return {
+            statusCode: 404,
+            message: "user not found"
+        };
+    }
+    user.updatedAt =  Date.now();
+    const result = await new userModel().createOrUpdate(user);
+    return {
+        statusCode: 200,
+        message: "User updated successfully",
+        data: result
+    }
+}
+module.exports = { registerUser, getUserById, updateUser };

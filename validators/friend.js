@@ -3,5 +3,5 @@ const { ObjectID } = require("bson");
 
 //FIXME: frined schema changed
 exports.friendRequestValidator = Joi.object({
-   friendIds: Joi.array().items(ObjectID)
+   friendIds: Joi.array().items(Joi.string())
 });

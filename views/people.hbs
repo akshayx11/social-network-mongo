@@ -1,1 +1,17 @@
-// render all users/friends/friends of friend
+<!-- render all users/friends/friends of friend-->
+<div class="people-container">
+    {{#each data}}
+            <div class="people-info">
+                <a href="/user/{{this._id}}">
+                    <div class="people-thumbnail">
+                        <img src="{{this.dpURL}}"/>
+                    </div>
+                    <div class="people-name">{{this.firstName}} {{this.lastName}}</div>
+                </a>
+                <div id="friend-request-btn" userid="{{this._id}}" class="people-friendStatus {{this.friendStatus}}">
+                    <div class="send-friend-request"></div>
+                </div>
+            </div>
+    {{/each}}
+ </div>
+

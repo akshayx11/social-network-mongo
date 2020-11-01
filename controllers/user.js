@@ -11,6 +11,8 @@ const registerUser = async user => {
             message: "User already exists"
         }
     }
+    user.dpURL = `https://avatars.dicebear.com/api/${user.gender}/${
+        user.firstName}${user.lastName}${Date.now()}.svg?mood[]=happy&w=100&h=100`;
     user.status = "active";
     user.createdAt = Date.now();
     user.updatedAt =  Date.now();
@@ -55,4 +57,27 @@ const updateUser = async user => {
         data: result
     }
 }
-module.exports = { registerUser, getUserById, updateUser };
+
+const getAllUsers = async user => {
+    const { pendingFriends = [], friends = [] } = user;
+    //FIXME:  user mongo aggregate query
+    const pf = pendingFriends.map(({id})=> `${id}`);
+    const fr = friends.map(({id}) => `${id}`);
+    console.log("pendingFriends   :: ", JSON.stringify(pendingFriends));
+    const allUsers = await new userModel().getAllUsers(user._id);
+    for(const u of allUsers){
+        const { _id } = u;
+        if(pf.includes(`${_id}`)) {
+            Object.assign(u, {friendStatus: "Pending"});
+        } else if(fr.includes(`${_id}`)) {
+            Object.assign(u, {friendStatus: "Accepted"});
+        } else {
+            Object.assign(u, {friendStatus: "Open"});
+        }
+    }
+    return {
+       statusCode: 200,
+       data: allUsers
+    }
+}
+module.exports = { registerUser, getUserById, updateUser, getAllUsers };

@@ -1,5 +1,5 @@
 <div id="user-profile">
-   <div id="user-thumbnail"></div>
+   <div id="user-thumbnail"> <img src="{{data.dpURL}}"/></div>
    <div id="user-full-name">Name: 
        {{{data.title}}}
        <input id="user-fname" type="text" value="{{data.firstName}}" />
@@ -14,9 +14,12 @@
    <div >Country: <input type="text" id="user-country" value="{{data.country}}"/> </div>
 
    <input type="button" value="Save" id="update-profile-btn"/>
-   <!--div id="user-friends">
-       Friends: {{#each data.friends}}
-            <div>{{this.name}}<div>
-       {{/each}}
-   </div-->
+   <div id="user-friends">
+        Friends: 
+       {{#each data.friends}}
+            <div class="people-info">
+                <div class="people-name"><a href="/user/{{this.id}}">{{this.name}}</a></div>
+            </div>
+        {{/each}}
+   </div>
 </div>

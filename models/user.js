@@ -10,6 +10,7 @@ const friendsSchema = mongoose.Schema({
 })
 const userSchema = mongoose.Schema(
     {
+      dpURL: String,
       title: String,
       firstName: String,
       middleName: String,
@@ -57,11 +58,16 @@ const userSchema = mongoose.Schema(
       return this.User.findOne({email, password}, { password: 0}).lean();
     }
 
+    //needs to add pagination
+    getAllUsers(userId){
+      return this.User.find({status: "active", _id: {$ne: userId }}, {password: 0}).lean();
+    }
     //Friends
     async addUserToPendingFriends(user, friends){
       await this.User.update(
         {
-          _id: user.id 
+          _id: user.id,
+          "pendingFriends.id": { $nin: friends.map(({id}) => id) }
         },
         {
           $addToSet: {
@@ -71,7 +77,8 @@ const userSchema = mongoose.Schema(
       );
       await this.User.update(
         {
-          _id: { $in: friends.map(({id}) => id) }
+          _id: { $in: friends.map(({id}) => id) },
+          "pendingFriends.id": { $ne: user.id }
         },
         {
           $addToSet: {
@@ -80,6 +87,96 @@ const userSchema = mongoose.Schema(
         }
       );
     }
-  }  
+
+    //FIXME and TESTME
+    async acceptRequest(user, friend) {
+      //pull from pendingFriends of user
+      await this.User.update(
+        {
+          _id: user.id
+        },
+        {
+          $pull: {
+            pendingFriends: {
+              $elemMatch: {
+                id: friend.id
+              }
+            }
+          }
+        }
+      );
+      //pull from pendingFriends from friend
+      await this.User.update(
+        {
+          _id: friend.id
+        },
+        {
+          $pull: {
+            pendingFriends: {
+              $elemMatch: {
+                id: user.id
+              }
+            }
+          }
+        }
+      );
+
+      //push to friends array of user
+      await this.User.update(
+        {
+          _id: user.id
+        },
+        {
+          $addToSet: {
+            pendingFriends: friend
+          }
+        }
+      );
+      //push to frineds array of friend
+      await this.User.update(
+        {
+          _id: friend.id
+        },
+        {
+          $addToSet: {
+            pendingFriends: user
+          }
+        }
+      );
+    }  
+
+  async rejectRequest(userId, friendId) {
+    //pull from pendingFriends of user
+    await this.User.update(
+      {
+        _id: userId
+      },
+      {
+        $pull: {
+          pendingFriends: {
+            $elemMatch: {
+              id: friendId
+            }
+          }
+        }
+      }
+    );
+    //pull from pendingFriends from friend
+    await this.User.update(
+      {
+        _id: friendId
+      },
+      {
+        $pull: {
+          pendingFriends: {
+            $elemMatch: {
+              id: userId
+            }
+          }
+        }
+      }
+    );
+  }
+}  
 
   exports.User = User;

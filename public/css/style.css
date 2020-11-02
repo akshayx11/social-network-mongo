@@ -33,6 +33,18 @@ input[type=text], input[type=password], input[type=email], input[type=date], inp
 .main-content {
     width: 100%;
 }
+
+.msg-link{
+    text-align: center;
+}
+.msg-link a{
+    background: #FFFFFE;
+    padding: 10px;
+    color: black;
+    text-align: center;
+    border: 1px solid grey;
+    border-radius: 20px;
+}
 @media only screen and (max-width: 768px) {
     .register-user, .login-user {
         width: 95%;

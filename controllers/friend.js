@@ -1,5 +1,6 @@
 const { ObjectID } = require("bson");
 const  { User: userModel } = require("../models/user");
+const { updateUser } = require("./user");
 
 const sendFriendRequest = async (user, friendIds) => {
     const now = Date.now();
@@ -8,6 +9,7 @@ const sendFriendRequest = async (user, friendIds) => {
     const userDetails = {
         id: _id,
         name: userFullName,
+        sentBy: _id,
         addedAt: now
     }
 
@@ -15,11 +17,12 @@ const sendFriendRequest = async (user, friendIds) => {
     const friendsData = await new userModel().getByIds(friendIds);
     const friendDetails = [];
     for(const friend of friendsData) {
-        const { _id, firstName, middleName, lastName } = friend;
+        const { _id:friendId, firstName, middleName, lastName } = friend;
         const name = `${firstName} ${middleName ? middleName : ""} ${lastName}`;
         friendDetails.push({
-            id: _id,
+            id: friendId,
             name,
+            sentBy: _id,
             addedAt: now
         });
     }
@@ -42,19 +45,29 @@ const responseFriendRequest =  async (user, friendId, response = "") => {
         const userDetails = {
             id: _id,
             name: userFullName,
+            sentBy: new ObjectID(friendId),
             addedAt: now
         }
-        const friendsData = await new userModel().getById(friendId);
-        const { ffirstName, fmiddleName, flastName } = friendsData;
+        const friendsData = await new userModel().getById(new ObjectID(friendId));
+        const { 
+            firstName: ffirstName, 
+            middleName: fmiddleName, 
+            lastName: flastName 
+        } = friendsData;
         const friendName = `${ffirstName} ${fmiddleName ? fmiddleName : ""} ${flastName}`;
         const friendDetails = {
             id: friendsData._id,
             name: friendName,
+            sentBy: new ObjectID(friendId),
             addedAt: now
         };
-        return await new userModel().acceptRequest(userDetails,friendDetails);
+        await new userModel().acceptRequest(userDetails,friendDetails);
     } else {
-        return await new userModel().rejectRequest(user.id, friendId);
+        await new userModel().rejectRequest(user._id, new ObjectID(friendId));
+    }
+    return {
+        statusCode: 200,
+        message: "updated successfully"
     }
 }
 module.exports = { sendFriendRequest, responseFriendRequest };

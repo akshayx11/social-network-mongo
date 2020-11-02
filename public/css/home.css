@@ -7,7 +7,9 @@
 body {
   font-family: Arial, Helvetica, sans-serif;
 }
-
+.hidden {
+  display: none;
+}
 /* Style the header */
 header {
     background-color: #0e3e8b;
@@ -98,6 +100,15 @@ section:after {
 }
 .people-friendStatus.Pending:before { 
   content: "Request Sent";
+}
+.people-friendStatus.Response:before { 
+  content: "Response";
+}
+
+.response-popup {
+    background: #A61651;
+    color: white;
+    padding: 3px;
 }
 /* Style the footer */
 footer {

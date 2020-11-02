@@ -61,14 +61,23 @@ const updateUser = async user => {
 const getAllUsers = async user => {
     const { pendingFriends = [], friends = [] } = user;
     //FIXME:  user mongo aggregate query
-    const pf = pendingFriends.map(({id})=> `${id}`);
+    const pf = pendingFriends.map(({id, sentBy})=> {
+        return {
+            id: `${id}`,
+            sentBy
+        }
+    });
     const fr = friends.map(({id}) => `${id}`);
-    console.log("pendingFriends   :: ", JSON.stringify(pendingFriends));
     const allUsers = await new userModel().getAllUsers(user._id);
     for(const u of allUsers){
         const { _id } = u;
-        if(pf.includes(`${_id}`)) {
-            Object.assign(u, {friendStatus: "Pending"});
+        const pfDetails = pf.find( ({id}) => `${_id}` === id);
+        if(pfDetails) {
+            if(`${pfDetails.sentBy}` ===  `${user._id}`){
+                Object.assign(u, {friendStatus: "Pending"});
+            }else{
+                Object.assign(u, {friendStatus: "Response"});
+            }
         } else if(fr.includes(`${_id}`)) {
             Object.assign(u, {friendStatus: "Accepted"});
         } else {

@@ -91,6 +91,7 @@ section:after {
   background: #A61651;
   color: white;
   padding: 3px;
+  cursor: pointer;
 }
 .people-friendStatus:before{
   content: "Send Request";

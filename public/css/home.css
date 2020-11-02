@@ -91,10 +91,10 @@ section:after {
   background: #A61651;
   color: white;
   padding: 3px;
-  cursor: pointer;
 }
 .people-friendStatus:before{
   content: "Send Request";
+  cursor: pointer;
 }
 .people-friendStatus.Accepted:before { 
   content: "Friend";
@@ -104,6 +104,7 @@ section:after {
 }
 .people-friendStatus.Response:before { 
   content: "Response";
+  cursor: pointer;
 }
 
 .response-popup {

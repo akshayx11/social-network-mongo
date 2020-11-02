@@ -1,11 +1,18 @@
 /*refered from W3school*/
-
+@font-face {
+  font-family: HennyPenny;
+  src: url(./fonts/HennyPenny-Regular.ttf);
+}
+@font-face {
+  font-family: ComicNeue;
+  src: url(./fonts/ComicNeue-Regular.ttf);
+}
 * {
   box-sizing: border-box;
 }
 
 body {
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: 'ComicNeue', Arial, Helvetica, sans-serif;
 }
 .hidden {
   display: none;
@@ -15,6 +22,7 @@ header {
     background-color: #0e3e8b;
     padding: 1px;
     text-align: center;
+    font-family: 'HennyPenny', Arial, Helvetica, sans-serif;;
     font-size: 18px;
     color: white;
 }
@@ -42,7 +50,10 @@ nav {
     text-align: center;
     cursor: pointer;    
 }
-
+#home-nav li:hover {
+  font-size: 10;
+  font-size: 20px;
+}
 #user-profile div {
   padding: 10px;
 }

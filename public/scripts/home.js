@@ -13,6 +13,11 @@ $(function () {
         location.href = "/";
     });
 
+    $('#new-stories').on('click', ()=> {
+        location.href = "/stories/new"
+    });  
+
+
     $('.people-friendStatus.Open').on('click', (e) => {
         const userid = $(e.currentTarget).attr('userid');
         let posting = $.ajax({ 

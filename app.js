@@ -15,6 +15,7 @@ const { getUserById } = require("./controllers/user");
 const  { ObjectID } =  require("bson");
 const { getCookie } = require("./utils/cookieHandler");
 const app = express();
+const { stories } = require("./routers/stories");
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
@@ -35,6 +36,8 @@ app.use("/user", authMiddleWare, userRouter);
 app.use("/auth", authRouter);
 app.use("/friend", authMiddleWare,friendRouter);
 //app.use("/post", authMiddleWare, postRouter);
+app.use("/stories",authMiddleWare,stories);
+
 
 app.get('/', async(req, res)=>{
     try {

@@ -55,7 +55,8 @@ nav {
   font-size: 20px;
 }
 #user-profile div {
-  padding: 10px;
+  padding: 5px;
+  margin: 1px;
 }
 
 #update-profile-btn {
@@ -101,7 +102,7 @@ section:after {
   content: "Send Request";
   background: #A61651;
   color: white;
-  padding: 3px;
+  padding: 7px;
 }
 .people-friendStatus:before{
   content: "Send Request";

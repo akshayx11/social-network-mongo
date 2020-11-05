@@ -25,7 +25,7 @@ $(function () {
         });
         posting.done(function( data ) {
             alert('Friend request send successsfully', data);
-            location.href = "/user/all";
+            location.href = "/user/people/all";
             console.log(data);
         }).fail((data)=> {
             alert(data.responseJSON.message);

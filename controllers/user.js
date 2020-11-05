@@ -58,8 +58,20 @@ const updateUser = async user => {
     }
 }
 
-const getAllUsers = async user => {
+const getAllUsers = async (user, userType = "all") => {
     const { pendingFriends = [], friends = [] } = user;
+    if(!friends.length && userType === "friends") {
+        return {
+            statusCode: 200,
+            data: []
+         }
+    } else if(!pendingFriends.length && userType === "pendingfriends") {
+        return {
+            statusCode: 200,
+            data: []
+         }
+    }
+    
     //FIXME:  user mongo aggregate query
     const pf = pendingFriends.map(({id, sentBy})=> {
         return {
@@ -68,7 +80,23 @@ const getAllUsers = async user => {
         }
     });
     const fr = friends.map(({id}) => `${id}`);
-    const allUsers = await new userModel().getAllUsers(user._id);
+    const searchQuery = {};
+    if(userType == "friends") {
+        Object.assign(searchQuery, {
+            userId: user._id,
+            friendIds: friends.map(({id}) => id)
+        });
+    } else if(userType == "pendingfriends"){
+        Object.assign(searchQuery, {
+            userId: user._id,
+            friendIds: pendingFriends.map(({id}) => id)
+        });
+    }else{
+        Object.assign(searchQuery, {
+            userId: user._id
+        });
+    }
+    const allUsers = await new userModel().getAllUsers(searchQuery);
     for(const u of allUsers){
         const { _id } = u;
         const pfDetails = pf.find( ({id}) => `${_id}` === id);

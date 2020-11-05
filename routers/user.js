@@ -62,9 +62,10 @@ router.get('/profile', async (req, res) => {
     }
 });
 
-router.get('/all', async(req, res) => {
+router.get('/people/:userType', async(req, res) => {
     try {
-        const { data } =  await getAllUsers(req.user);
+        const { userType = "all" } = req.params;
+        const { data } =  await getAllUsers(req.user, userType);
         res.render('people', {
             layout: 'homepageLayout',
             data

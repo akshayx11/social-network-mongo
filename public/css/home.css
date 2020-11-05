@@ -42,7 +42,7 @@ nav {
   height: 100vh;
 }
 
-#home-nav li {
+.home-nav li {
     background-color: #A61651;
     color: white;
     padding: 10px 60px;
@@ -50,7 +50,7 @@ nav {
     text-align: center;
     cursor: pointer;    
 }
-#home-nav li:hover {
+.home-nav li:hover {
   font-size: 10;
   font-size: 20px;
 }
@@ -97,6 +97,7 @@ section:after {
   width: auto;
   display: inline-block;
   text-align: center;
+  margin: 2px 0px;
 }
 .people-friendStatus{
   content: "Send Request";
@@ -118,11 +119,37 @@ section:after {
   content: "Response";
   cursor: pointer;
 }
-
+.people-container {
+  text-align: center;
+}
 .response-popup {
     background: #A61651;
     color: white;
     padding: 3px;
+}
+
+.select-box {
+  padding: 10px;
+  font-family: inherit;
+  float: right;
+}
+
+/*Sub li design*/
+#people-select {
+  list-style: none;
+    display: flex;
+    flex-direction: row-reverse;
+    flex-wrap: wrap;
+    clear: both;
+    margin: 0 0 10px 0;
+}
+#people-select li {
+  background: #001b2b;
+  padding: 10px 15px;
+}
+#people-select a {
+  text-decoration: none;
+  color: #FFFFFE;
 }
 /* Style the footer */
 footer {
@@ -138,8 +165,24 @@ footer {
     width: 100%;
     height: auto;
   }
+  nav {
+    text-align: center;
+    padding: 5px;
+  }
+  .home-nav {
+    display: inline-flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    margin: 0;
+  }
+  .home-nav li {
+    padding: 10px 5px;
+  }
   #user-full-name input {
     display: flex;
     flex-direction: column;
+  }
+  #people-select {
+      display: inline-flex;
   }
 }

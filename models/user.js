@@ -60,8 +60,21 @@ const userSchema = mongoose.Schema(
     }
 
     //needs to add pagination
-    getAllUsers(userId){
-      return this.User.find({status: "active", _id: {$ne: userId }}, {password: 0}).lean();
+    getAllUsers({userId, friendIds = []}){
+      const filter = {
+        status: "active"
+      }
+      if(friendIds.length) {
+        filter._id =  {$in: friendIds};
+      } else {
+        filter._id =  { $ne: userId };
+      }
+      return this.User.find(
+        filter,
+        {
+          password: 0
+        }
+      ).lean();
     }
     //Friends
     async addUserToPendingFriends(user, friends){

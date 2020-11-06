@@ -12,11 +12,15 @@ $(function () {
         setCookie("token");
         location.href = "/";
     });
+    new FroalaEditor('textarea');
 
     $('#new-stories').on('click', ()=> {
         location.href = "/stories/new"
     });  
 
+    $('#allstories').on('click', ()=> {
+        location.href = "/stories/all"
+    });  
 
     $('.people-friendStatus.Open').on('click', (e) => {
         const userid = $(e.currentTarget).attr('userid');

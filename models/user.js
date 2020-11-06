@@ -180,3 +180,4 @@ const userSchema = mongoose.Schema(
 }  
 
   exports.User = User;
+  module.exports = {friendsSchema}

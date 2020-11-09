@@ -1,17 +1,32 @@
 <!-- render all users/friends/friends of friend-->
 <div class="people-container">
-    {{#each data}}
-            <div class="people-info">
-                <a href="/user/{{this._id}}">
-                    <div class="people-thumbnail">
-                        <img src="{{this.dpURL}}"/>
+    <div id="people-select" class="home-nav">
+               
+        <a href='/user/people/pendingfriends'><li value="pendingfriends">Requests</li></a>
+        <a href='/user/people/friends'><li value="friends">Friends</li></a>
+        <a href='/user/people/all'><li value="all">All</li></a>
+    </div>
+    <br>
+    {{#if data}}
+        {{#each data}}
+                <div class="people-info">
+                    <a href="/user/{{this._id}}">
+                        <div class="people-thumbnail">
+                            <img src="{{this.dpURL}}"/>
+                        </div>
+                        <div class="people-name">{{this.firstName}} {{this.lastName}}</div>
+                    </a>
+                    <div userid="{{this._id}}" class="people-friendStatus {{this.friendStatus}}">
+                        <div class="send-friend-request"></div>
                     </div>
-                    <div class="people-name">{{this.firstName}} {{this.lastName}}</div>
-                </a>
-                <div id="friend-request-btn" userid="{{this._id}}" class="people-friendStatus {{this.friendStatus}}">
-                    <div class="send-friend-request"></div>
+                    <div id="res_{{this._id}}" class="response-popup hidden" userid="{{this._id}}">
+                        <button res="accepted" userid="{{this._id}}" class="res-btn">Confirm</button>
+                        <button res="rejected" userid="{{this._id}}" class="res-btn">Reject</button>
+                    </div>
                 </div>
-            </div>
-    {{/each}}
+        {{/each}}
+    {{else}}
+        No record found.
+    {{/if}}
  </div>
 

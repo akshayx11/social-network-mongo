@@ -58,17 +58,54 @@ const updateUser = async user => {
     }
 }
 
-const getAllUsers = async user => {
+const getAllUsers = async (user, userType = "all") => {
     const { pendingFriends = [], friends = [] } = user;
+    if(!friends.length && userType === "friends") {
+        return {
+            statusCode: 200,
+            data: []
+         }
+    } else if(!pendingFriends.length && userType === "pendingfriends") {
+        return {
+            statusCode: 200,
+            data: []
+         }
+    }
+    
     //FIXME:  user mongo aggregate query
-    const pf = pendingFriends.map(({id})=> `${id}`);
+    const pf = pendingFriends.map(({id, sentBy})=> {
+        return {
+            id: `${id}`,
+            sentBy
+        }
+    });
     const fr = friends.map(({id}) => `${id}`);
-    console.log("pendingFriends   :: ", JSON.stringify(pendingFriends));
-    const allUsers = await new userModel().getAllUsers(user._id);
+    const searchQuery = {};
+    if(userType == "friends") {
+        Object.assign(searchQuery, {
+            userId: user._id,
+            friendIds: friends.map(({id}) => id)
+        });
+    } else if(userType == "pendingfriends"){
+        Object.assign(searchQuery, {
+            userId: user._id,
+            friendIds: pendingFriends.map(({id}) => id)
+        });
+    }else{
+        Object.assign(searchQuery, {
+            userId: user._id
+        });
+    }
+    const allUsers = await new userModel().getAllUsers(searchQuery);
     for(const u of allUsers){
         const { _id } = u;
-        if(pf.includes(`${_id}`)) {
-            Object.assign(u, {friendStatus: "Pending"});
+        const pfDetails = pf.find( ({id}) => `${_id}` === id);
+        if(pfDetails) {
+            if(`${pfDetails.sentBy}` ===  `${user._id}`){
+                Object.assign(u, {friendStatus: "Pending"});
+            }else{
+                Object.assign(u, {friendStatus: "Response"});
+            }
         } else if(fr.includes(`${_id}`)) {
             Object.assign(u, {friendStatus: "Accepted"});
         } else {

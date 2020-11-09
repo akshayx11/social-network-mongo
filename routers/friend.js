@@ -26,12 +26,10 @@ router.post('/send-request', async (req, res)=>{
        res.send("Error occured: "+ e);
     }
 });
-router.put('/response-request', async (req, res)=>{
+router.put('/response-request/:friendId', async (req, res)=>{
     try{
-        if(error){
-            return res.boom.badRequest(error);
-        }
         const { response } = req.query;
+        const { friendId } = req.params;
         const {
             data,
             statusCode,

@@ -3,7 +3,7 @@
         <img src="{{data.dpURL}}"/>
    </div>
    <div id="user-full-name">Name: 
-       {{{data.title}}}
+       {{data.title}}
        {{data.firstName}}
        {{data.middleName}}
        {{data.lastName}}
@@ -13,8 +13,12 @@
    <div id="user-state">State: {{data.state}} </div> 
    <div id="user-country">Country: {{data.country}}</div>
    <div id="user-friends">
-       Friends: {{#each data.friends}}
-            <div>{{this.name}}<div>
-       {{/each}}
+        Friends: 
+        <br>
+       {{#each data.friends}}
+            <div class="people-info">
+                <div class="people-name"><a href="/user/{{this.id}}">{{this.name}}</a></div>
+            </div>
+        {{/each}}
    </div>
 </div>

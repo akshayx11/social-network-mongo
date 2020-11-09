@@ -1,18 +1,28 @@
 /*refered from W3school*/
-
+@font-face {
+  font-family: HennyPenny;
+  src: url(./fonts/HennyPenny-Regular.ttf);
+}
+@font-face {
+  font-family: ComicNeue;
+  src: url(./fonts/ComicNeue-Regular.ttf);
+}
 * {
   box-sizing: border-box;
 }
 
 body {
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: 'ComicNeue', Arial, Helvetica, sans-serif;
 }
-
+.hidden {
+  display: none;
+}
 /* Style the header */
 header {
     background-color: #0e3e8b;
     padding: 1px;
     text-align: center;
+    font-family: 'HennyPenny', Arial, Helvetica, sans-serif;;
     font-size: 18px;
     color: white;
 }
@@ -32,7 +42,7 @@ nav {
   height: 100vh;
 }
 
-#home-nav li {
+.home-nav li {
     background-color: #A61651;
     color: white;
     padding: 10px 60px;
@@ -40,9 +50,13 @@ nav {
     text-align: center;
     cursor: pointer;    
 }
-
+.home-nav li:hover {
+  font-size: 10;
+  font-size: 20px;
+}
 #user-profile div {
-  padding: 10px;
+  padding: 5px;
+  margin: 1px;
 }
 
 #update-profile-btn {
@@ -83,21 +97,59 @@ section:after {
   width: auto;
   display: inline-block;
   text-align: center;
+  margin: 2px 0px;
 }
 .people-friendStatus{
   content: "Send Request";
   background: #A61651;
   color: white;
-  padding: 3px;
+  padding: 7px;
 }
 .people-friendStatus:before{
   content: "Send Request";
+  cursor: pointer;
 }
 .people-friendStatus.Accepted:before { 
   content: "Friend";
 }
 .people-friendStatus.Pending:before { 
   content: "Request Sent";
+}
+.people-friendStatus.Response:before { 
+  content: "Response";
+  cursor: pointer;
+}
+.people-container {
+  text-align: center;
+}
+.response-popup {
+    background: #A61651;
+    color: white;
+    padding: 3px;
+}
+
+.select-box {
+  padding: 10px;
+  font-family: inherit;
+  float: right;
+}
+
+/*Sub li design*/
+#people-select {
+  list-style: none;
+    display: flex;
+    flex-direction: row-reverse;
+    flex-wrap: wrap;
+    clear: both;
+    margin: 0 0 10px 0;
+}
+#people-select li {
+  background: #001b2b;
+  padding: 10px 15px;
+}
+#people-select a {
+  text-decoration: none;
+  color: #FFFFFE;
 }
 /* Style the footer */
 footer {
@@ -113,8 +165,26 @@ footer {
     width: 100%;
     height: auto;
   }
+  nav {
+    text-align: center;
+    padding: 5px;
+    position: sticky;
+    top: 0;
+  }
+  .home-nav {
+    display: inline-flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    margin: 0;
+  }
+  .home-nav li {
+    padding: 10px 5px;
+  }
   #user-full-name input {
     display: flex;
     flex-direction: column;
+  }
+  #people-select {
+      display: inline-flex;
   }
 }

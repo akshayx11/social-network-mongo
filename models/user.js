@@ -4,7 +4,8 @@ const { ObjectID } = require("bson");
 const friendsSchema = mongoose.Schema({
   id: ObjectID,
   name: String,
-  addedAt: Number
+  addedAt: Number,
+  sentBy: ObjectID
 },{
   _id: false
 })
@@ -59,8 +60,21 @@ const userSchema = mongoose.Schema(
     }
 
     //needs to add pagination
-    getAllUsers(userId){
-      return this.User.find({status: "active", _id: {$ne: userId }}, {password: 0}).lean();
+    getAllUsers({userId, friendIds = []}){
+      const filter = {
+        status: "active"
+      }
+      if(friendIds.length) {
+        filter._id =  {$in: friendIds};
+      } else {
+        filter._id =  { $ne: userId };
+      }
+      return this.User.find(
+        filter,
+        {
+          password: 0
+        }
+      ).lean();
     }
     //Friends
     async addUserToPendingFriends(user, friends){
@@ -95,51 +109,37 @@ const userSchema = mongoose.Schema(
         {
           _id: user.id
         },
-        {
-          $pull: {
-            pendingFriends: {
-              $elemMatch: {
-                id: friend.id
-              }
-            }
-          }
-        }
+        { $pull: { pendingFriends : { id: friend.id } } }
       );
       //pull from pendingFriends from friend
       await this.User.update(
         {
           _id: friend.id
         },
-        {
-          $pull: {
-            pendingFriends: {
-              $elemMatch: {
-                id: user.id
-              }
-            }
-          }
-        }
+        { $pull: { pendingFriends : { id: user.id } } }
       );
 
       //push to friends array of user
       await this.User.update(
         {
-          _id: user.id
+          _id: user.id,
+          "friends.id": { $ne: friend.id }
         },
         {
           $addToSet: {
-            pendingFriends: friend
+            friends: friend
           }
         }
       );
       //push to frineds array of friend
       await this.User.update(
         {
-          _id: friend.id
+          _id: friend.id,
+          "friends.id": { $ne: user.id }
         },
         {
           $addToSet: {
-            pendingFriends: user
+            friends: user
           }
         }
       );
@@ -151,30 +151,14 @@ const userSchema = mongoose.Schema(
       {
         _id: userId
       },
-      {
-        $pull: {
-          pendingFriends: {
-            $elemMatch: {
-              id: friendId
-            }
-          }
-        }
-      }
+      { $pull: { pendingFriends : { id: friendId } } }
     );
     //pull from pendingFriends from friend
     await this.User.update(
       {
         _id: friendId
       },
-      {
-        $pull: {
-          pendingFriends: {
-            $elemMatch: {
-              id: userId
-            }
-          }
-        }
-      }
+      { $pull: { pendingFriends : { id: userId } } }
     );
   }
 }  

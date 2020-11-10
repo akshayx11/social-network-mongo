@@ -233,7 +233,7 @@ footer {
   #people-select {
       display: inline-flex;
   }
-  .story-content {
-    border-radius: 0 0 0 10px;
+  .story-holder {
+    margin: 30px -30px;
   }
 }

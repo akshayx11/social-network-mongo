@@ -189,7 +189,6 @@ section:after {
   border-radius: 0 10px 0px 10px;
   max-height: 200px;
   overflow: auto;
-  line-height: 1;
 }
 .story-editor {
     background-color: transparent;

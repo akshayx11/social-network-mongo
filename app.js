@@ -8,7 +8,7 @@ const {connectDB} = require('./dbConnection');
 const {userRouter}  = require("./routers/user");
 const { authRouter } = require("./routers/auth");
 const { friendRouter } = require("./routers/friend");
-//const { postRouter } = require("./routers/post");
+const { storyRouter } = require("./routers/story");
 const {authMiddleWare} = require("./middlewares/auth");
 const { decryptJwtToken } = require("./controllers/auth");
 const { getUserById } = require("./controllers/user");
@@ -34,7 +34,7 @@ connectDB();
 app.use("/user", authMiddleWare, userRouter);
 app.use("/auth", authRouter);
 app.use("/friend", authMiddleWare,friendRouter);
-//app.use("/post", authMiddleWare, postRouter);
+app.use("/story", authMiddleWare, storyRouter);
 
 app.get('/', async(req, res)=>{
     try {
